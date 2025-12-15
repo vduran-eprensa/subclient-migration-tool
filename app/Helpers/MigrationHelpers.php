@@ -129,7 +129,7 @@ class MigrationHelpers{
 
     public static function generateFiltered($table, $scope_id){
         $map = config("migration_map.entities");
-        $main_table = config("migration_map.base_table");
+        $main_table = "subclients";
         /** @var class-string<Model> $tcl */
         $tcl = "App\\Models\\$table";
         $obj = new $tcl();

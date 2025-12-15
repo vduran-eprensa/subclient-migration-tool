@@ -8,6 +8,7 @@
     * set: Forces a value on a field. Overrides source value
     * cut: Prevents exporing the table through that field. When a record is analyzed, the code will search its dependencies and dependants. 
             This cut prevents exploring dependants from some fields.
+    * unique_by: indicates which field makes a record unique. This helps detecting when a record has already been migrated but the ID is not in the subclient_migration table. Must not be used with FKs since it checks for exactly the same value from source in target.
 
 */
 

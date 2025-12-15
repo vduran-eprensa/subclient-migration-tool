@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\MigrationHelpers;
 use App\Models\carpetas;
+use App\Models\subclients;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -34,21 +35,24 @@ class Migrate extends Command
         $main_table = "subclients";
         $default_field = config("migration_map.default_pk");
 
-        Log::info("TENANT TABLE: $main_table | DEFAULT PRIMARY KEY: $default_field");
+        Log::info("Migrating subclient: $main_table.$source_subclient_id");
 
-        DB::statement("SET session_replication_role = 'replica'");
-
-        $resp = MigrationHelpers::migrateElement($main_table, $default_field, $source_subclient_id);
-        
-
+        $migrated_id = MigrationHelpers::migrateElement($main_table, $default_field, $source_subclient_id);
         MigrationHelpers::searchDependants($main_table, $default_field, $source_subclient_id, $source_subclient_id);
 
-        // TODO:
-        // Take subclient_id and sister and cross assign + populate usid
-        // Update companies USID as well
-        // Update companies.secondary_tema_ids
+        
+        $sister = subclients::where("id","=",$source_subclient_id)->first(["sister_subclient_id"]);
+        Log::info("Migrating sister subclient: $main_table.$sister[sister_subclient_id]");
 
-        DB::statement("SET session_replication_role = 'origin'");
+        $migrated_sister_id = MigrationHelpers::migrateElement($main_table, $default_field, $sister["sister_subclient_id"]);
+        MigrationHelpers::searchDependants($main_table, $default_field, $sister["sister_subclient_id"], $sister["sister_subclient_id"]);
+
+        Log::info("Updating sister_subclient_id");
+        subclients::on("pgtarget")->where("id","=",$migrated_id)->update( ["sister_subclient_id"=> $migrated_sister_id ] );
+        subclients::on("pgtarget")->where("id","=",$migrated_sister_id)->update( ["sister_subclient_id"=> $migrated_id ] );
+        
+        Log::info("Migrated subclients: $migrated_id, $migrated_sister_id");
+
 
     }
 }
