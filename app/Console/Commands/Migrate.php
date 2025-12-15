@@ -28,12 +28,10 @@ class Migrate extends Command
     public function handle(){
 
         $source_subclient_id = $this->argument("source_subclient_id");
-        $target_subclient_id = $this->argument("target_subclient_id");
-        $dry = $this->option("dry");
 
-        Log::info("PARAMS: $source_subclient_id | $target_subclient_id | $dry");
+        Log::info("PARAMS: $source_subclient_id");
 
-        $main_table = config("migration_map.base_table");
+        $main_table = "subclients";
         $default_field = config("migration_map.default_pk");
 
         Log::info("TENANT TABLE: $main_table | DEFAULT PRIMARY KEY: $default_field");

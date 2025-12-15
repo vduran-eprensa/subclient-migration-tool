@@ -1,8 +1,17 @@
 <?php 
 
-return [
+/*
+    Description:
 
-    'base_table'=>"subclients",
+    * default_pk: Default primary key field name.
+    * missing_fk: what to do with missing references: DEFAULT=NULL | same_id=use id from source
+    * set: Forces a value on a field. Overrides source value
+    * cut: Prevents exporing the table through that field. When a record is analyzed, the code will search its dependencies and dependants. 
+            This cut prevents exploring dependants from some fields.
+
+*/
+
+return [
     "default_pk"=>"id",
 
     'entities' => [
@@ -12,7 +21,8 @@ return [
             'relations' => [
                 "carpeta_id"=>"carpetas.id",
                 "alert_instance_id"=>"alert_instance.id"
-            ]
+            ],
+            "cut"=>["carpeta_id"]
         ],
         
         "alert_contacts"=>[
@@ -23,7 +33,8 @@ return [
             ],
             "missing_fk"=>[
                 "contact_id"=>"same_id"
-            ]
+            ],
+            "cut"=>["contact_id"]
         ],
 
         "alert_custom_php"=>[
@@ -50,7 +61,8 @@ return [
             "missing_fk"=>[ // default is set null
                 "last_mod_by_contact"=>"same_id", // Use same ID as original record
                 "created_by_contact"=>"same_id"
-            ]
+            ],
+            "cut"=>["created_by_contact","whatsapp_template_id","from_alias_id","telegram_template_id","tg_channel_id"]
         ],
         "alert_simple_filters"=>[
             "relations"=>[
@@ -61,7 +73,8 @@ return [
             "relations"=>[
                 "tema_id"=>"temas.id",
                 "alert_instance_id"=>"alert_instance.id"
-            ]
+            ],
+            "cut"=>["tema_id"]
         ],
         "alert_timeslots"=>[
             "relations"=>[
@@ -72,13 +85,15 @@ return [
             "relations"=>[
                 "unique_article_id"=>"unique_articles.id",
                 "author_id"=>"authors.id"
-            ]
+            ],
+            "cut"=>["author_id"]
         ],
         "article_sections"=>[
             "relations"=>[
                 "unique_article_id"=>"unique_articles.id",
                 "section_id"=>"papers_sections.id"
-            ]
+            ],
+            "cut"=>["section_id"]
         ],
         "attachment_options"=>[
             "relations"=>[
@@ -89,7 +104,8 @@ return [
             "relations"=>[
                 "subclient_id"=>"subclients.id",
                 "created_by"=>"contacts.id"
-            ]
+            ],
+            "cut"=>["created_by"]
         ],
         "carpetas"=>[
             "relations"=>[
@@ -102,21 +118,24 @@ return [
             "relations"=>[
                 "carpeta_id"=>"carpetas.id",
                 "companies_id"=>"companies.id"
-            ]
+            ],
+            "cut"=>["carpeta_id"]
         ],
 
         "client_hallon_search_perms"=>[
             "relations"=>[
                 "client_id"=>"clients.id",
                 "contact_id"=>"contacts.id"
-            ]
+            ],
+            "cut"=>["client_id"]
         ],
 
         "clients_cifs"=>[
             "relations"=>[
                 "client_id"=>"clients.id",
                 "cif_id"=>"cifs.id"
-            ]
+            ],
+            "cut"=>["cif_id"]
         ],
 
         "companies"=>[
@@ -134,40 +153,46 @@ return [
                 //"usid"=>"subclients.id",
                 "unique_article_id"=>"unique_articles.id",
                 "emailed_by_instance_id"=>"alert_instance.id",
-                "tracked_companies_id"=>"companies.id"
+                //"tracked_companies_id"=>"companies.id"
             ],
             "set"=>[
                 "main_tema_id"=>null,
-                "usid"=>null
-            ]
+                "usid"=>null,
+                "tracked_companies_id"=>null
+            ],
+            "cut"=>["hidden_by_contact","manual_domains_id","unique_article_id","emailed_by_instance_id"]
         ],
 
         "companies_has_tema"=>[
             "relations"=>[
                 "companies_id"=>"companies.id",
                 "tema_id"=>"temas.id"
-            ]
+            ],
+            "cut"=>["tema_id"]
         ],
 
         "companies_values"=>[
             "relations"=>[
                 "subclient_id"=>"subclients.id",
                 "companies_id"=>"companies.id"
-            ]
+            ],
+            "cut"=>["subclient_id"]
         ],
 
         "contact_has_subclient"=>[
             "relations"=>[
                 "contact_id"=>"contacts.id",
                 "subclient_id"=>"subclients.id",
-            ]
+            ],
+            "cut"=>["contact_id"]
         ],
 
         "contact_has_telegram_channel"=>[
             "relations"=>[
                 "contact_id"=>"contacts.id",
                 "telegram_channel_id"=>"telegram_channels.id",
-            ]
+            ],
+            "cut"=>["telegram_channel_id"]
         ],
 
         "telegram_channels"=>[
@@ -190,7 +215,8 @@ return [
                 "mg_id"=>"mailgun_accounts.id",
                 "telegram_account_id"=>"telegram_accounts.id",
                 "pdf_viewer_id"=>"pdf_viewer.id",
-            ]
+            ],
+            "cut"=>["mg_id","telegram_account_id","pdf_viewer_id"]
         ],
 
         "custom_orderby"=>[
@@ -209,7 +235,8 @@ return [
             "relations"=>[
                 "subclient_id"=>"subclients.id",
                 "custom_view_type_id"=>"custom_view_types.id"
-            ]
+            ],
+            "cut"=>["custom_view_type_id"]
         ],
 
         "datastudio_informe"=>[
@@ -220,16 +247,18 @@ return [
 
         "grss_feed_to_keyword_subscription"=>[
             "relations"=>[
-                "keyword.id"=>"keywords.id",
+                "keyword_id"=>"keywords.id",
                 "feed_id"=>"google_rss_feed.id"
-            ]
+            ],
+            "cut"=>["feed_id"]
         ],
 
         "grouping"=>[
             "relations"=>[
                 "tema_id"=>"temas.id",
                 "companies_id"=>"companies.id"
-            ]
+            ],
+            "cut"=>["tema_id"]
         ],
 
         "hallon_eyes_purchases"=>[
@@ -242,7 +271,8 @@ return [
             "relations"=>[
                 "keywords_id"=>"keywords.id",
                 "companies_id"=>"companies.id"
-            ]
+            ],
+            "cut"=>["keywords_id"]
         ],
 
         "intervals_247"=>[
@@ -261,14 +291,16 @@ return [
             "relations"=>[
                 "tema_id"=>"temas.id",
                 //"tematica_id"=>"tematicas.id"
-            ]
+            ],
+            "cut"=>["tema_id"]
         ],
 
         "original_hits"=>[
             "relations"=>[
                 "companies_id"=>"companies.id",
                 "keyword_id"=>"keywords.id"
-            ]
+            ],
+            "cut"=>["keyword_id"]
         ],
 
         "rrss"=>[
@@ -288,7 +320,8 @@ return [
             "relations"=>[
                 "alert_instance_id"=>"alert_instance.id",
                 "custom_php_id"=>"alert_custom_php.id"
-            ]
+            ],
+            "cut"=>["custom_php_id"]
         ],
 
         "special_values"=>[
@@ -304,21 +337,24 @@ return [
                 //"mail_type"=>"mail_types.id"
                 //"mail_frequency"=>"mail_frequency.id"
                 //"mail_types_id"=>"mail_types.id"
-            ]
+            ],
+            "cut"=>["contact_id"]
         ],
 
         "subclient_has_template"=>[
             "relations"=>[
                 "subclient_id"=>"subclients.id",
                 "template_id"=>"headers_templates.id"
-            ]
+            ],
+            "cut"=>["template_id"]
         ],
 
         "template_uses_script"=>[
             "relations"=>[
                 "script_id"=>"header_scripts.id",
                 "sht_id"=>"subclient_has_template.id"
-            ]
+            ],
+            "cut"=>["script_id"]
         ],
 
         "subclient_tiers"=>[
@@ -341,7 +377,8 @@ return [
                 //"sister_subclient_id"=>"subclients.id",
                 "seller_id"=>"contacts.id",
                 //"unique_subclient_id"=>"subclients.id",
-            ]
+            ],
+            "cut"=>["client_id","added_by","modified_by","seller_id"]
         ],
 
         "tema_has_pw_subscription"=>[
@@ -362,7 +399,8 @@ return [
             "relations"=>[
                 "tema_id"=>"temas.id",
                 "parent_tema_id"=>"temas.id"
-            ]
+            ],
+            "cut"=>["parent_tema_id"]
         ],
 
         "temas"=>[
@@ -370,7 +408,8 @@ return [
                 "subclient_id"=>"subclients.id",
                 "parent_id"=>"temas.id",
                 //"grouping_type"=>"grouping_types.id"
-            ]
+            ],
+            "cut"=>["parent_id"]
         ],
 
         "templates_report"=>[

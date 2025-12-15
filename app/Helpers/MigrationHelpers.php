@@ -165,8 +165,7 @@ class MigrationHelpers{
         foreach($map as $t=>$def){
             foreach($def["relations"] as $col=>$fk){
                 $ftab = explode(".",$fk)[0];
-                if($ftab == $tablename){
-                    // Log::info("$t($col) => $ftab => $tablename");
+                if($ftab == $tablename && !in_array($col,$def["cut"]??[])){
                     $tables[]=[
                         "tname"=>$t, // Referencing table
                         "col"=>$col, // Referencing column
@@ -201,6 +200,17 @@ class MigrationHelpers{
         
 
         //TODO: Find where to add the scope of the migration to avoid eg migrating contact X references in contact_has_subclient and this migrates all subclients. Restrict to only the initially given subclient
+
+        // TODO: Avoid this:
+        /*
+        [2025-12-14 21:57:24] local.INFO: Processing: hit_by records => 1
+        [2025-12-14 21:57:24] local.INFO: migrateElement(hit_by, 'id', 1534652619)
+        [2025-12-14 21:57:24] local.INFO: Cache hit: hit_by(1534652619) => 1523402765
+        [2025-12-14 21:57:24] local.INFO: Searching dependants for(hit_by, 'id', 1534652619)
+        [2025-12-14 21:57:24] local.INFO: >>> PATH=.subclients(27372).temas(524407).keywords(934113)
+        [2025-12-14 21:57:24] local.INFO: Processing original_hits
+        [2025-12-14 21:57:24] local.INFO: select * from "original_hits" where "keyword_id" = 934113
+        */
 
     }
 
