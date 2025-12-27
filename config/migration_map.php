@@ -273,6 +273,9 @@ return [
                 "keywords_id"=>"keywords.id",
                 "companies_id"=>"companies.id"
             ],
+            "missing_fk"=>[
+                "keywords_id"=>"SET=0"
+            ],
             "cut"=>["keywords_id"]
         ],
 

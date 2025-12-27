@@ -93,8 +93,13 @@ class MigrationHelpers{
             // Do something with cycles (subclients.id/subclients.sister_subclient_id)
             $migrated_id = self::migrateElement($d['ft'], $d['fc'], $rec[$d["col"]]);
             
-            if( $migrated_id == NULL && $rec[$d["col"]]!=NULL && ($map[$tablename]["missing_fk"][$d["col"]]??'NULL')=='same_id'  ){
-                $migrated_id = $rec[$d["col"]];
+            if($migrated_id == NULL && $rec[$d["col"]]!=NULL){
+                if( ($map[$tablename]["missing_fk"][$d["col"]]??'NULL')=='same_id'  ){
+                    $migrated_id = $rec[$d["col"]];
+                }
+                elseif( preg_match("/^SET=(\d+)$/", $map[$tablename]["missing_fk"][$d["col"]]??'NULL', $matches)  ){
+                    $migrated_id = $matches[1];
+                }
             }
             $rec[$d["col"]] = $migrated_id;
         }
