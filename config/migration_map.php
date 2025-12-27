@@ -305,7 +305,7 @@ return [
                 "keyword_id"=>"keywords.id"
             ],
             "missing_fk"=>[
-                "keywords_id"=>"SET=0"
+                "keyword_id"=>"SET=0"
             ],
             "cut"=>["keyword_id"]
         ],
