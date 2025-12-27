@@ -304,6 +304,9 @@ return [
                 "companies_id"=>"companies.id",
                 "keyword_id"=>"keywords.id"
             ],
+            "missing_fk"=>[
+                "keywords_id"=>"SET=0"
+            ],
             "cut"=>["keyword_id"]
         ],
 
