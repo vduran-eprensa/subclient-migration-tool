@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Jobs\AsyncProcess;
 use App\Models\companies;
 use App\Models\SubclientMigration;
 use Illuminate\Database\Eloquent\Collection;
@@ -187,9 +188,17 @@ class MigrationHelpers{
             $q = $filtered->where($t["col"],"=",$record_id)->getQuery();
             Log::info($q->toRawSql());
 
-            $filtered->where($t["col"],"=",$record_id)->chunk(100,function(Collection $recs) use ($t,$scope_id,$tablename,$record_id,$path){
+            $is_async = $map[$t["tname"]]["async"]??false;
+
+            $filtered->where($t["col"],"=",$record_id)->chunk(100,function(Collection $recs) use ($t,$scope_id,$tablename,$record_id,$path, $is_async){
                 Log::info("Processing: $t[tname] records => ".count($recs));
                 foreach($recs as $tr){
+
+                    if($is_async){
+                        AsyncProcess::dispatchSync($t["tname"], $tr["id"], $scope_id, $path);
+                        continue;
+                    }
+
                     // For each element, invoke migrate element to migrte the reference
                     // TODO: $tr[id]. The "id" index should come from somehwere. For now all of the IDs are called "id" and this will work
                     Log::info("migrateElement($t[tname], 'id', $tr[id])");

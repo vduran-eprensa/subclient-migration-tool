@@ -161,7 +161,8 @@ return [
                 "usid"=>null,
                 "tracked_companies_id"=>null
             ],
-            "cut"=>["hidden_by_contact","manual_domains_id","unique_article_id","emailed_by_instance_id"]
+            "cut"=>["hidden_by_contact","manual_domains_id","unique_article_id","emailed_by_instance_id"],
+            "async"=>true
         ],
 
         "companies_has_tema"=>[
