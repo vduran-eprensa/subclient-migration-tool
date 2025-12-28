@@ -186,7 +186,10 @@ return [
                 "contact_id"=>"contacts.id",
                 "subclient_id"=>"subclients.id",
             ],
-            "cut"=>["contact_id"]
+            "cut"=>["contact_id"],
+            "missing_fk"=>[
+                "contact_id"=>"skip"
+            ]
         ],
 
         "contact_has_telegram_channel"=>[

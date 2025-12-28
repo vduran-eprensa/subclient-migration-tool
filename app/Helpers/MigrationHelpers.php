@@ -101,6 +101,9 @@ class MigrationHelpers{
                 elseif( preg_match("/^SET=(\d+)$/", $map[$tablename]["missing_fk"][$d["col"]]??'NULL', $matches)  ){
                     $migrated_id = $matches[1];
                 }
+                elseif( ($map[$tablename]["missing_fk"][$d["col"]]??'NULL')=='skip'  ){
+                    return null;
+                }
             }
             $rec[$d["col"]] = $migrated_id;
         }
