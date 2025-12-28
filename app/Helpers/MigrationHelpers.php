@@ -195,7 +195,7 @@ class MigrationHelpers{
                 foreach($recs as $tr){
 
                     if($is_async){
-                        AsyncProcess::dispatchSync($t["tname"], $tr["id"], $scope_id, $path);
+                        AsyncProcess::dispatch($t["tname"], $tr["id"], $scope_id, $path)->onConnection("queuedb");
                         continue;
                     }
 

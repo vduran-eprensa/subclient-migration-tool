@@ -32,7 +32,6 @@ class AsyncProcess implements ShouldQueue
         MigrationHelpers::migrateElement($this->tablename, "id", $this->rec_id);
 
         Log::info("Searching dependants for($this->tablename, 'id', $this->rec_id)");
-        // TODO: Call search dependants of this record in order to migrate them
         MigrationHelpers::searchDependants($this->tablename, 'id', $this->rec_id, $this->scope_id, "{$this->path}.job...");
     }
 }
