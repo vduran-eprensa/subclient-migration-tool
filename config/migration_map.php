@@ -239,9 +239,9 @@ return [
         "custom_view"=>[
             "relations"=>[
                 "subclient_id"=>"subclients.id",
-                "custom_view_type_id"=>"custom_view_types.id"
+                "custom_view_types_id"=>"custom_view_types.id"
             ],
-            "cut"=>["custom_view_type_id"]
+            "cut"=>["custom_view_types_id"]
         ],
 
         "datastudio_informe"=>[
