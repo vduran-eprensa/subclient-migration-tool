@@ -241,7 +241,8 @@ return [
                 "subclient_id"=>"subclients.id",
                 "custom_view_types_id"=>"custom_view_types.id"
             ],
-            "cut"=>["custom_view_types_id"]
+            "cut"=>["custom_view_types_id"],
+            "set"=>["usid"=>null]
         ],
 
         "datastudio_informe"=>[
