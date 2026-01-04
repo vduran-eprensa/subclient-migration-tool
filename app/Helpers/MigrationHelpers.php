@@ -202,7 +202,7 @@ class MigrationHelpers{
                             Log::info("Record $t[tname]:$tr[id] is already queued. Skipping...");
                             continue;
                         }
-                        AsyncProcess::dispatch($t["tname"], $tr["id"], $scope_id, $path);
+                        AsyncProcess::dispatch($t["tname"], $tr["id"], $scope_id, $path)->onQueue("migrator");
                         Cache::put("QUEUED:$t[tname]:$tr[id]",true);
                         continue;
                     }
