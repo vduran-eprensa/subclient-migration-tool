@@ -27,11 +27,11 @@ services:
     ports:
       - 63548:5432
     environment:
-      PGDATA: /pgdata
+      PGDATA: /dbdata
     env_file:
       - pgqdb.env
     volumes:
-      - /docker-pgdata:/pgdata
+      - /docker-pgdata:/dbdata
     healthcheck:
       test: '[ $(netstat -an | grep postgres | wc -l) == "1" ] && true || false'
       interval: 15s
