@@ -355,7 +355,10 @@ return [
                 //"mail_frequency"=>"mail_frequency.id"
                 //"mail_types_id"=>"mail_types.id"
             ],
-            "cut"=>["contact_id"]
+            "cut"=>["contact_id"],
+            "missing_fk"=>[
+                "contact_id"=>"skip"
+            ]
         ],
 
         "subclient_has_template"=>[
