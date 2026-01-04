@@ -193,7 +193,7 @@ class MigrationHelpers{
 
             $is_async = $map[$t["tname"]]["async"]??false;
 
-            $filtered->where($t["col"],"=",$record_id)->chunk(100,function(Collection $recs) use ($t,$scope_id,$tablename,$record_id,$path, $is_async){
+            $filtered->where($t["col"],"=",$record_id)->chunk(2000,function(Collection $recs) use ($t,$scope_id,$tablename,$record_id,$path, $is_async){
                 Log::info("Processing: $t[tname] records => ".count($recs));
                 foreach($recs as $tr){
 

@@ -245,6 +245,11 @@ return [
             "set"=>["usid"=>null]
         ],
 
+        "custom_view_types"=>[
+            "relations"=>[],
+            "unique_by"=>['description_type']
+        ],
+
         "datastudio_informe"=>[
             "relations"=>[
                 "subclient_id"=>"subclients.id"
